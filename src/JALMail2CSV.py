@@ -4,7 +4,7 @@
 #   JAL航空券購入通知メールCSV変換ツール v1.0
 #
 #   Copyright(C) 2026 H.Kashima <kashima@kaele.com> Generated with Chat-GPT
-#   2026.4.14   v1.0
+#   2026.5.11   v1.0
 #
 import base64
 import csv
