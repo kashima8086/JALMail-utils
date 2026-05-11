@@ -56,7 +56,7 @@ python jal_mail_to_route_map.py --text mail1.txt mail2.txt
 
 ---
 
-## IMAP設定について
+## IMAP設定について(重要)
 
 `jal_mail_to_route_map.py` 内で以下を設定してください。
 
