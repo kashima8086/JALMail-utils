@@ -119,6 +119,12 @@ CARD_BONUS_TYPE = "普通"
 python JALMail2CSV.py
 ```
 
+## 年初回搭乗ボーナスを有効化する場合
+
+```bash
+python JALMail2CSV.py --first-flight-bonus
+```
+
 ---
 
 # 出力CSV
@@ -214,14 +220,14 @@ JAL公式Webページ掲載の国内線区間マイル表をベースに定義�
 
 ---
 
-# 注意
+# ライセンス
 
-ボーナスマイルの条件は変更される場合があるため、実際に加算されたマイル数も併せて確認の上ご利用ください。
+MIT License
 
 ---
 
-## ライセンス
+# 作者
 
-本ソフトウェアは MIT License に準拠します。
+H.Kashima
 
-詳細は `LICENSE` ファイルを参照してください。
+Generated with ChatGPT
