@@ -146,6 +146,7 @@
     height: 100%;
     margin: 0;
     overflow: hidden;
+    touch-action: manipulation;
     background: #f3f6fa;
   }
 
@@ -172,7 +173,7 @@
     min-width: 0;
     display: block;
     background: #fff;
-    touch-action: pan-x pan-y pinch-zoom;
+    touch-action: pan-x pan-y pinch-zoom manipulation;
   }
 
   .timelinePanelForeignObject {
@@ -1077,7 +1078,9 @@
           <div class="timelineWarning" id="timelineWarning"></div>
         </div>
       </foreignObject>
-    </svg>
+            <!-- ===== ロゴ画像 ===== -->
+        __LOGO_IMAGE_ELEMENT__
+      </svg>
     
     <div id="coordinateDebugPanel" class="coordinateDebugPanel" style="display:none;">
       <b>座標確認</b><br/>
@@ -1144,7 +1147,11 @@
   function getAirportCircle(name) {
   return svg.querySelector(`circle.airport[data-airport="${CSS.escape(name)}"]`);}
   
-  function getAirportPoint(name) {
+  // ============================================================
+// 空港座標取得
+// SVG上の空港 circle から座標を取得
+// ============================================================
+function getAirportPoint(name) {
   const circle = getAirportCircle(name);
   if (!circle) return null;
   return { x: Number(circle.getAttribute('cx')), y: Number(circle.getAttribute('cy'))};}
@@ -1269,7 +1276,11 @@
     }
   }
 
-  function applyTimelineArrowByActualPathDirection(line, arrowColorMode) {
+  // ============================================================
+// 現在区間の矢印方向を path 実方向から判定
+// path方向が逆でも到着地側へ矢先を向ける
+// ============================================================
+function applyTimelineArrowByActualPathDirection(line, arrowColorMode) {
     // path の実際の始点・終点と到着地座標を比較し、
     // 矢先が常に到着地側を向くよう marker-start / marker-end を選びます。
     const arrivalName = line.dataset.b;
@@ -1294,7 +1305,11 @@
     }
   }
 
-  function render() {
+  // ============================================================
+// タイムライン表示更新
+// 区間線・空港・矢印状態を再描画
+// ============================================================
+function render() {
   if (currentStep < 0) currentStep = 0;
   if (currentStep > TIMELINE_FLIGHTS.length) currentStep = TIMELINE_FLIGHTS.length;
   
@@ -1483,7 +1498,11 @@ const DEBUG_SHOW_ROUTE_ARROWS = true;
   let zoomControls = null;
   let fullMapMode = true;
 
-  function isMobile() {
+  // ============================================================
+// モバイル表示判定
+// iPhone縦画面専用UIを使用するか判定
+// ============================================================
+function isMobile() {
     return mobileMedia.matches;
   }
 
@@ -1491,7 +1510,11 @@ const DEBUG_SHOW_ROUTE_ARROWS = true;
     return document.getElementById("networkSvg");
   }
 
-  function getAirportPoint(name) {
+  // ============================================================
+// 空港座標取得
+// SVG上の空港 circle から座標を取得
+// ============================================================
+function getAirportPoint(name) {
     if (!name) return null;
     const svg = getSvg();
     if (!svg) return null;
@@ -1510,19 +1533,29 @@ const DEBUG_SHOW_ROUTE_ARROWS = true;
     return Math.max(min, Math.min(max, value));
   }
 
-  function setViewBox(box) {
+  // ============================================================
+// viewBox 更新
+// 地図の表示範囲を変更
+// ============================================================
+function setViewBox(box) {
     const svg = getSvg();
     if (!svg) return;
     svg.setAttribute("viewBox", `${box.x} ${box.y} ${box.w} ${box.h}`);
   }
 
-  function showFullMap() {
+  // ============================================================
+// 全体表示へ戻す
+// ============================================================
+function showFullMap() {
     fullMapMode = true;
     setViewBox(FULL_VIEW_BOX);
     updateZoomButtons();
   }
 
-  function getCurrentTimelineLine() {
+  // ============================================================
+// 現在表示中のタイムライン区間を取得
+// ============================================================
+function getCurrentTimelineLine() {
     const svg = getSvg();
     if (!svg) return null;
 
@@ -1589,7 +1622,11 @@ const DEBUG_SHOW_ROUTE_ARROWS = true;
     return [flightNumber, timeText].filter(Boolean).join(" ");
   }
 
-  function updateMobileStatus() {
+  // ============================================================
+// モバイル用ステータス表示更新
+// 2行表示で区間・便名・時刻を表示
+// ============================================================
+function updateMobileStatus() {
     if (!dock) return;
 
     const statusMain = dock.querySelector(".mobileTimelineStatusMain");
@@ -1634,7 +1671,11 @@ const DEBUG_SHOW_ROUTE_ARROWS = true;
 
 
 
-  function zoomToCurrentRouteObjectRange() {
+  // ============================================================
+// 現在区間の発着地に合わせてズーム
+// 発着地が画面内へ収まる範囲へ自動調整
+// ============================================================
+function zoomToCurrentRouteObjectRange() {
     if (!isMobile()) return;
 
     const line = getCurrentTimelineLine();
@@ -1692,7 +1733,11 @@ const DEBUG_SHOW_ROUTE_ARROWS = true;
   }
 
 
-  function zoomToCurrentRouteWithCurrentZoomLevel() {
+  // ============================================================
+// ＋／－ズーム後の viewBox 更新
+// 到着地が画面外へ出ないよう補正
+// ============================================================
+function zoomToCurrentRouteWithCurrentZoomLevel() {
     if (!isMobile()) return;
 
     const line = getCurrentTimelineLine();
@@ -1750,7 +1795,11 @@ const DEBUG_SHOW_ROUTE_ARROWS = true;
     zoomViewBox = { ...DEFAULT_ZOOM_VIEW_BOX };
   }
 
-  function changeZoom(factor) {
+  // ============================================================
+// ズーム倍率変更
+// 最大拡大時は到着地を20%線へ補正
+// ============================================================
+function changeZoom(factor) {
     if (!isMobile()) return;
 
     // 「＋」の最大拡大時は、到着地が画面枠端から20%内側の線上に来る画角にする。
@@ -1768,7 +1817,11 @@ const DEBUG_SHOW_ROUTE_ARROWS = true;
     zoomToCurrentRouteWithCurrentZoomLevel();
   }
 
-  function ensureZoomControls() {
+  // ============================================================
+// ズームコントロール初期化
+// 右側の ↔ / ＋ / － ボタンを生成
+// ============================================================
+function ensureZoomControls() {
     if (zoomControls) return zoomControls;
 
     zoomControls = document.createElement("div");
@@ -1795,7 +1848,11 @@ const DEBUG_SHOW_ROUTE_ARROWS = true;
     return zoomControls;
   }
 
-  function ensureMobileDock() {
+  // ============================================================
+// モバイル下部UI初期化
+// 下部ステータスと操作ボタンを生成
+// ============================================================
+function ensureMobileDock() {
     if (dock) return dock;
 
     dock = document.createElement("div");
