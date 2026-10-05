@@ -5,6 +5,7 @@ JAL予約メール → 予約経路チェック図 HTML生成ツール v1.0
 
 Copyright(C) 2026 H.Kashima <kashima@kaele.com> Generated with Chat-GPT
 2026.5.12   v1.0
+2026.10.5   v1.1 空港表記を変更 根室→中標津
 
 実行には次のファイルが必要です:
   JALMailEngine.py
@@ -91,8 +92,7 @@ SVG_AIRPORT_ALIASES = {
 
     "奄美大島": "奄美",
     "奄美": "奄美",
-    "根室中標津": "根室",
-    "中標津": "根室",
+    "根室中標津": "中標津",
     "五島福江": "福江",
 }
 
